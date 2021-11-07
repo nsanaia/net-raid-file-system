@@ -1,0 +1,7 @@
+# jetbrains idea
+.idea
+.idea/*
+
+# output files
+./client/client_o
+./server/server_o
