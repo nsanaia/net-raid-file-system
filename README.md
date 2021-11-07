@@ -136,14 +136,8 @@ struct server_iterator_response {
 We use replication for improving the availability and persistence of data. There is two servers main and reserve servers. Each file/directory is duplicated on different server. Write is processed on each individual server
 parallelly. Client does not receive approval, until both servers commits writing. 
 
-We have 2 servers: main and reserve. One is considered main because it receives at first request and then second. Second is for stable storage. That is why opendir, readdir and such king of request are not made on reserve server.
-Second server will get only request that changes the content
-
-მთავარი მნიშვნელობა იმიტო შევძინე, რომ პირველად ამ მთავარ სერვერზე იგზავნბვა request შემდეგ მეორეზე
-და მეორეს დანიშნულება stable storage-ია. ამიტომ opendir, readdir და მსგავსი ფუნქციაები მეორე სერვერზე არ იძახება.
-იძახება მხოლოდ ის ფუნქციები, რომლებიც ცვლის ფაილების იერაქიის სტრუქტურას, ფაილსი კონტენტს და ასე შემდეგ.
-ამიტომ მეორე სერვერი იდენტურია პირველის.
-
+We have 2 servers: main and reserve. One is considered main because it receives at first request and then second. Second is for stable storage. That is why opendir, readdir and such king of 
+request are not made on reserve server.  Second server will get only request that changes the hierarchy, files and content. As a result we have two identical servers.
 
 For achieving stable storage I use extend attribute. On server-side during mknod and write requests we use md5 hash of content and set
 it in extend attribute. During open we generate new hash of content and send it with old hash in response. 
